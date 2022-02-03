@@ -1,0 +1,25 @@
+@import './breakpoints';
+@import './utils';
+
+@mixin layout-3-cols {
+  max-width: pxToRem(1000);
+  display: grid;
+  grid-template-columns: minmax(10px, 1fr);
+  grid-gap: pxToRem(25);
+
+  @include breakpoint(sm) {
+    grid-template-columns: repeat(2, minmax(10px, 1fr));
+  }
+
+  @include breakpoint(md) {
+    grid-template-columns: repeat(3, minmax(10px, 1fr));
+  }
+}
+
+@mixin layout-4-cols {
+  @include layout-3-cols;
+
+  @include breakpoint(lg) {
+    grid-template-columns: repeat(4, minmax(10px, 1fr));
+  }
+}

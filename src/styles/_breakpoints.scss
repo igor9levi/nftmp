@@ -1,0 +1,26 @@
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1330px,
+  // 1200
+  xxl: 1600px,
+);
+
+/// Mixin to manage responsive breakpoints
+/// @param {String} $breakpoint - Breakpoint name
+/// @require $media
+@mixin breakpoint($media) {
+  @if map-has-key($breakpoints, $media) {
+    // Prints a media query based on the value
+    @media only screen and (min-width: map-get($breakpoints, $media)) {
+      @content;
+    }
+  }
+
+  // If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$media}`. "
+        + "Available breakpoints are: #{map-keys($media)}.";
+  }
+}
