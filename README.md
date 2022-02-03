@@ -1,3 +1,5 @@
+![example event workflow](https://github.com/igor9levi@gmail.com/nftmp/actions/workflows/main.yml/badge.svg?branch=main&event=push)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
