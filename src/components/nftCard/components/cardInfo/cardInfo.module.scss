@@ -1,0 +1,66 @@
+@import '../../../../../../assets/styles/mixins';
+
+.generalInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  column-gap: 3.125rem;
+  margin-bottom: 1.6875rem;
+}
+
+.description {
+  overflow: hidden;
+}
+
+.title {
+  @include ellipsis;
+  font-weight: 600;
+}
+
+.collection {
+  @include ellipsis;
+  color: rgba(var(--text-color-rgb), 0.5);
+}
+
+.priceInfo {
+  text-align: end;
+  flex: 1 0 auto;
+}
+
+.priceLabel {
+  color: rgba(var(--text-color-rgb), 0.5);
+}
+
+.amount {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.cardInfo {
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: normal;
+  padding: 0.5625rem 0.9375rem 0.75rem 0.9375rem;
+}
+
+.typeInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  color: rgba(var(--text-color-rgb), 0.5);
+}
+
+.typeDescription {
+  display: flex;
+  align-items: center;
+}
+
+.typeIcon {
+  margin-right: 0.1875rem;
+
+  svg {
+    color: rgba(var(--text-color-rgb), 0.5);
+  }
+}
