@@ -27,7 +27,7 @@ const content = {
   type: 'ERC721' as TokenType,
   thumbnail: 'https://picsum.photos/286',
   tokenAddress: '0x1234456',
-  link: 'www.etherscan.com',
+  link: 'https://www.etherscan.com',
 };
 
 export const Card = Template.bind({});
