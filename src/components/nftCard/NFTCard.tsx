@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Components
-import CardInfo from './components/cardInfo';
+import CardInfo from './cardInfo';
 import Image from '../../common/image';
 import { IToken } from '../../types';
 
