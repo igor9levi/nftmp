@@ -54,7 +54,11 @@
     "import/no-extraneous-dependencies": [
       "error",
       {
-        "devDependencies": [".storybook/**", "/src/stories/**"]
+        "devDependencies": [
+          "**/.storybook/**",
+          "/src/stories/**",
+          "**/*.stories.*"
+        ]
       }
     ]
   },
