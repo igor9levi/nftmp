@@ -6,7 +6,7 @@ export const ThemeModeToggle = ({
   className,
   ...restProps
 }: {
-  className: string;
+  className?: string;
 }): JSX.Element => {
   const { theme, toggleDarkLightTheme } = useThemeStore();
 
@@ -20,3 +20,9 @@ export const ThemeModeToggle = ({
     </Button>
   );
 };
+
+ThemeModeToggle.defaultProps = {
+  className: '',
+};
+
+export default ThemeModeToggle;
