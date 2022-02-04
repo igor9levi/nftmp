@@ -1,4 +1,4 @@
-@import '../../../../../../assets/styles/mixins';
+@import '../../../styles/mixins';
 
 .generalInfo {
   display: flex;
@@ -38,7 +38,6 @@
 }
 
 .cardInfo {
-  background-color: yellow;
   font-size: 1rem;
   font-weight: 400;
   font-style: normal;
