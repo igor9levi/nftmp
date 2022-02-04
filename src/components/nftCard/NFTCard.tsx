@@ -10,13 +10,18 @@ import styles from './nftCard.module.scss';
 
 // picture, token address, link to Etherscan and token ID
 
-const NFTCard = ({ token }: IToken): JSX.Element => {
+interface NFTCardProps {
+  token: IToken;
+}
+
+const NFTCard = ({ token }: NFTCardProps): JSX.Element => {
   return (
     <div className={styles.container}>
       {/* Body */}
       <Image src={token.thumbnail} alt="NFT Image" />
+
       {/* Footer */}
-      {/* <CardInfo content={token.content} /> */}
+      <CardInfo content={token} />
     </div>
   );
 };

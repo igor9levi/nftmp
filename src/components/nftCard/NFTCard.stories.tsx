@@ -23,7 +23,7 @@ const Template: ComponentStory<typeof NFTCard> = (args) => (
 );
 
 const content = {
-  id: '23412',
+  tokenId: '23412',
   type: 'ERC721' as TokenType,
   thumbnail: 'https://picsum.photos/286',
   tokenAddress: '0x1234456',
