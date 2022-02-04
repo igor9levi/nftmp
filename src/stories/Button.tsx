@@ -1,6 +1,6 @@
 import React from 'react';
 import './button.css';
-import { noop } from '../utils.js';
+import { noop } from '../utils';
 
 interface ButtonProps {
   /**
