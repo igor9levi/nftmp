@@ -1,0 +1,28 @@
+@import '../../styles/utils';
+
+.button {
+  display: inline-block;
+  background-color: var(--btn-bg-color);
+  font-weight: 600;
+  border: 1px solid var(--btn-border-color);
+  color: var(--btn-text-color);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+}
+.ghost {
+  color: #333;
+  background-color: transparent;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
+}
+.button-sm {
+  font-size: pxToRem(12);
+  padding: 10px 16px;
+}
+.button-md {
+  font-size: pxToRem(14);
+  padding: 11px 20px;
+}
+.button-lg {
+  font-size: pxToRem(16);
+  padding: 12px 24px;
+}

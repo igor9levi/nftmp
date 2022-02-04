@@ -9,9 +9,8 @@
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "prettier/prettier",
-    "prettier/react",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:storybook/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -46,11 +45,34 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "import/prefer-default-export": "off",
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": "arrow-function" }
+    ],
+    "react/jsx-props-no-spreading": "warn",
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/.storybook/**",
+          "/src/stories/**",
+          "**/*.stories.*"
+        ]
+      }
+    ]
   },
   "settings": {
     "import/resolver": {
       "typescript": {}
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
+      }
+    }
+  ]
 }
