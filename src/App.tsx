@@ -26,6 +26,9 @@ const App = (): JSX.Element => {
         <Button size="lg" onClick={() => alert('hello')}>
           &#x1F31E; &#x1F31C;
         </Button>
+        <Button size="lg" onClick={() => alert('hello')}>
+          <span dangerouslySetInnerHTML={{ __html: '&#x1F31E; &#x1F31C;' }} />
+        </Button>
         <ThemeModeToggle />
       </header>
     </div>

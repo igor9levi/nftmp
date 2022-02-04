@@ -15,8 +15,8 @@ export const THEME = {
 };
 
 export const THEME_EMOJI = {
-  light: '&#x1F31E;',
-  dark: '&#x1F31C;',
+  dark: '&#x1F31E;',
+  light: '&#x1F31C;',
 };
 
 /**
@@ -50,18 +50,14 @@ export const useThemeStore = create<ThemeStore>((set, get) => {
 export const useThemeSetup = (): void => {
   const { theme, setTheme } = useThemeStore();
 
-  // Once React is loaded sync with the local storage
   useEffect(() => {
     const storedTheme = <Theme | undefined>localStorage.getItem('cf-theme');
 
     if (storedTheme) {
       setTheme(storedTheme);
     }
-    // This effect should run only once on startup (Used for permanence)
-    // After first load theme is stored in state which becomes source of truth
   }, []);
 
-  // Change theme every time the variable changes
   useEffect(() => {
     const themeClasses = Object.values(THEME).map((v) => `theme-${v}`);
     document.body.classList.remove(...themeClasses);

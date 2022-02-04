@@ -16,7 +16,7 @@ export const ThemeModeToggle = ({
       className={className}
       {...restProps}
     >
-      {THEME_EMOJI[theme]}
+      <span dangerouslySetInnerHTML={{ __html: THEME_EMOJI[theme] }} />
     </Button>
   );
 };
