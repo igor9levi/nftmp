@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# NTF Maketplace
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+App used to connect to Metamask wallet and show NFTs (ERC721, ERC1155) held by the wallet. NFTs are represented in grid with picture, token address, link to Etherscan and token ID. Uses ethers.js and Covalent endpoint to get list of NFTs held by an address.
+
+[Covalent API](https://www.covalenthq.com/docs/api/#/0/Class-A/Get-token-balances-for-address/lng=en)
+
+![example event workflow](https://github.com/igor9levi/nftmp/actions/workflows/main.yml/badge.svg?branch=main&event=push)
 
 ## Available Scripts
 
@@ -18,6 +22,14 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run lint`
+
+Runs linter on all .ts, .tsx, .js, .jsx files
+
+### `npm run storybook`
+
+Runs storybook
 
 ### `npm run build`
 
@@ -38,9 +50,3 @@ If you aren’t satisfied with the build tool and configuration choices, you can
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
