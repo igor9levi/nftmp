@@ -1,28 +1,31 @@
 import React from 'react';
+import classNames from 'classnames/bind';
+
 // Components
-// import NonAuthNavigation from '../common/nonAuthNavigation';
-// import Navigation from '../common/navigation';
-// import AuthGuardian from '../common/authGuardian/AuthGuardian';
-// import Menu from '../common/menu/Menu';
-// import AuthGuardian from '../common/authGuardian';
+import Header from '../components/header';
 
 // Styles
 import styles from './mainLayout.module.scss';
 
-// export const MainLayout = ({ children }) => (
-//   <>
-//     <AuthGuardian
-//       authComponent={(props) => <Navigation {...props} />}
-//       // nonAuthComponent={(props) => <NonAuthNavigation {...props} />}
-//       nonAuthComponent={(props) => <Navigation {...props} />}
-//     />
-//     <main className={styles.main}>
-//       <Menu />
-//       <div className={styles.content}>{children}</div>
-//     </main>
-//   </>
-// );
+const cx = classNames.bind(styles);
 
-export const MainLayout = (): JSX.Element => <div>Main Layout</div>;
+interface MainLayoutProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export const MainLayout = ({
+  children,
+  className,
+}: MainLayoutProps): JSX.Element => (
+  <>
+    <Header />
+    <main className={cx([styles.main, className])}>{children}</main>
+  </>
+);
+
+MainLayout.defaultProps = {
+  className: '',
+};
 
 export default MainLayout;

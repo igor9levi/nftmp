@@ -1,0 +1,45 @@
+@import '../../../styles/mixins';
+
+.cardInfo {
+  font-size: 1rem;
+  font-weight: 400;
+  font-style: normal;
+  padding: 9px 15px 12px 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.tokenIdInfo {
+  overflow: hidden;
+}
+
+.tokenId {
+  @include ellipsis;
+  font-weight: 600;
+}
+
+.tokenIdLabel {
+  color: rgba(var(--text-color-rgb), 0.5);
+}
+
+.tokenAddressInfo {
+  overflow: hidden;
+  text-align: end;
+  max-width: 70%;
+}
+
+.tokenLabel {
+  color: rgba(var(--text-color-rgb), 0.5);
+}
+
+.tokenAddress {
+  @include ellipsis;
+  font-weight: 600;
+
+  &:hover {
+    color: rgba(var(--text-color-rgb), 0.5);
+    text-decoration: underline;
+  }
+}

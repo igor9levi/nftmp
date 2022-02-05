@@ -2,6 +2,8 @@
 
 App used to connect to Metamask wallet and show NFTs (ERC721, ERC1155) held by the wallet. NFTs are represented in grid with picture, token address, link to Etherscan and token ID. Uses ethers.js and Covalent endpoint to get list of NFTs held by an address.
 
+[Covalent API](https://www.covalenthq.com/docs/api/#/0/Class-A/Get-token-balances-for-address/lng=en)
+
 ![example event workflow](https://github.com/igor9levi/nftmp/actions/workflows/main.yml/badge.svg?branch=main&event=push)
 
 ## Available Scripts

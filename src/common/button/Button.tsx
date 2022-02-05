@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames/bind';
 import { noop } from '../../utils';
+import { Size } from '../../types';
 
 import styles from './button.module.scss';
 
@@ -8,13 +9,13 @@ const cx = classnames.bind(styles);
 
 interface ButtonProps {
   /**
-   * Is this the principal call to action on the page?
+   * Is button transparent?
    */
   ghost?: boolean;
   /**
    * How large should the button be?
    */
-  size?: 'sm' | 'md' | 'lg';
+  size?: Size;
   /**
    * Button contents
    */
