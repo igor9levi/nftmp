@@ -36,3 +36,11 @@ Card.args = {
     ...content,
   },
 };
+
+export const CardWithUnavailableImage = Template.bind({});
+CardWithUnavailableImage.args = {
+  token: {
+    ...content,
+    thumbnail: 'https://picsumde.photos/286',
+  },
+};
