@@ -30,9 +30,6 @@ interface ButtonProps {
   className?: string;
 }
 
-/**
- * Primary UI component for user interaction
- */
 export const Button = ({
   ghost,
   size,
