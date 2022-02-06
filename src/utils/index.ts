@@ -1,4 +1,5 @@
 import { ERC721, ERC1155 } from '../const';
+import { IText, IToken } from '../types';
 
 export const noop = (): void => {
   // do nothing
@@ -24,3 +25,17 @@ export const isNFT = (token: string[] | string): boolean => {
 
   return false;
 };
+
+// TODO: define nft type from endpoint
+export const filterNFTsOnly = <T>(nft: any): T =>
+  isNFT(nft.supports_erc) && nft.nft_data?.[0];
+
+export const parseNFTdata = (nft: any): IToken =>
+  ({
+    // TODO: nft_data can be array of more then 1 element
+    // TODO:  token_url & external_link to show address 0x00...
+    tokenId: nft.nft_data[0]?.token_id,
+    thumbnail: nft.nft_data[0]?.external_data.image,
+    tokenAddress: nft.nft_data[0]?.token_url,
+    link: nft.nft_data[0]?.external_data?.external_url,
+  } as IToken);

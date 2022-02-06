@@ -9,13 +9,14 @@ import NFTCard from '../components/nftCard';
 import { IToken } from '../types';
 
 // Utils
-import { urlBuilder, isNFT } from '../utils';
+import { urlBuilder, filterNFTsOnly, parseNFTdata } from '../utils';
 
 // Styles
 import styles from './home.module.scss';
 
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[] | null>(null);
+
   useEffect(() => {
     (async function getData() {
       try {
@@ -25,17 +26,7 @@ export const Home = (): JSX.Element => {
 
         const { items } = data.data.data;
 
-        // TODO: remove any
-        const newState = items
-          .filter((nft: any) => isNFT(nft.supports_erc) && nft.nft_data?.[0])
-          .map((nft: any) => ({
-            // TODO: nft_data can be array of more then 1 element
-            // TODO:  token_url & external_link to show address 0x00...
-            tokenId: nft.nft_data[0]?.token_id,
-            thumbnail: nft.nft_data[0]?.external_data.image,
-            tokenAddress: nft.nft_data[0]?.token_url,
-            link: nft.nft_data[0]?.external_data?.external_url,
-          }));
+        const newState = items.filter(filterNFTsOnly).map(parseNFTdata);
 
         setState(newState);
       } catch (err) {
@@ -43,12 +34,13 @@ export const Home = (): JSX.Element => {
       }
     })();
   }, []);
+
   return (
     <div className={styles.content}>
       {state ? (
         state.map((card: IToken) => <NFTCard key={card.tokenId} token={card} />)
       ) : (
-        <Text>Home Page</Text>
+        <Text>Login to Metamask to see your NFTs</Text>
       )}
     </div>
   );
