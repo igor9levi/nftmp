@@ -10,8 +10,7 @@ import styles from './header.module.scss';
 import Button from '../../common/button';
 
 export const Header = (): JSX.Element => {
-  const { active, chainId, account, library, connector, activate, deactivate } =
-    useWeb3React();
+  const { active, activate, deactivate } = useWeb3React();
 
   const connect = useCallback(async (): Promise<void> => {
     try {
@@ -37,7 +36,7 @@ export const Header = (): JSX.Element => {
           <h1 className={styles.title}>NFT Marketplace</h1>
         </div>
         <div>
-          {account ? (
+          {active ? (
             <Button onClick={disconnect}>Logout</Button>
           ) : (
             <Button onClick={connect}>Login</Button>
