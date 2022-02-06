@@ -11,7 +11,6 @@ import Home from './pages';
 import styles from './App.module.scss';
 
 function getLibrary(provider: any): any {
-  console.log('provider ', provider);
   return new ethers.providers.Web3Provider(provider);
 }
 
