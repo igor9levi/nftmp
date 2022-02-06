@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { injected } from '../../connectors';
 
@@ -13,22 +13,21 @@ export const Header = (): JSX.Element => {
   const { active, chainId, account, library, connector, activate, deactivate } =
     useWeb3React();
 
-  // TODO: useCallback
-  async function connect(): Promise<void> {
+  const connect = useCallback(async (): Promise<void> => {
     try {
       await activate(injected);
     } catch (err) {
       console.error(err);
     }
-  }
+  }, [activate]);
 
-  async function disconnect(): Promise<void> {
+  const disconnect = useCallback(async (): Promise<void> => {
     try {
       await deactivate();
     } catch (err) {
       console.error(err);
     }
-  }
+  }, [deactivate]);
 
   return (
     <header>
@@ -39,9 +38,9 @@ export const Header = (): JSX.Element => {
         </div>
         <div>
           {account ? (
-            <Button onClick={() => disconnect()}>Logout</Button>
+            <Button onClick={disconnect}>Logout</Button>
           ) : (
-            <Button onClick={() => connect()}>Login</Button>
+            <Button onClick={connect}>Login</Button>
           )}
         </div>
       </div>
