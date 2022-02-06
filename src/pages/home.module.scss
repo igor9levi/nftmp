@@ -1,0 +1,10 @@
+@import '../styles/layouts';
+
+.heading {
+  padding: 0 16px;
+  margin-bottom: 38px;
+}
+
+.content {
+  @include layout-3-cols;
+}
