@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import classnames from 'classnames/bind';
 import axios from 'axios';
 
 // Components
@@ -15,8 +14,6 @@ import { urlBuilder, isNFT } from '../utils';
 // Styles
 import styles from './home.module.scss';
 
-const cx = classnames.bind(styles);
-
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[] | null>(null);
   useEffect(() => {
@@ -30,13 +27,7 @@ export const Home = (): JSX.Element => {
 
         // TODO: remove any
         const newState = items
-          .filter((nft: any) => {
-            if (isNFT(nft.supports_erc) && nft.nft_data?.[0]) {
-              console.log(nft);
-              return true;
-            }
-            return false;
-          })
+          .filter((nft: any) => isNFT(nft.supports_erc) && nft.nft_data?.[0])
           .map((nft: any) => ({
             // TODO: nft_data can be array of more then 1 element
             // TODO:  token_url & external_link to show address 0x00...
@@ -45,7 +36,7 @@ export const Home = (): JSX.Element => {
             tokenAddress: nft.nft_data[0]?.token_url,
             link: nft.nft_data[0]?.external_data?.external_url,
           }));
-        console.log('newState', newState);
+
         setState(newState);
       } catch (err) {
         console.error(err);
