@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useWeb3React } from '@web3-react/core';
 
 // Components
 import Text from '../common/text';
@@ -15,33 +16,55 @@ import { urlBuilder, filterNFTsOnly, parseNFTdata } from '../utils';
 import styles from './home.module.scss';
 
 export const Home = (): JSX.Element => {
-  const [state, setState] = useState<IToken[] | null>(null);
+  const [state, setState] = useState<IToken[]>([]);
+  const { active, chainId, account } = useWeb3React();
 
   useEffect(() => {
     (async function getData() {
       try {
-        const data = await axios.get(
-          urlBuilder({ chainId: '1', address: 'demo.eth' }),
-        );
+        if (active && chainId && account) {
+          const data = await axios.get(
+            urlBuilder({ chainId, address: account }),
+          );
 
-        const { items } = data.data.data;
+          const { items } = data.data.data;
 
-        const newState = items.filter(filterNFTsOnly).map(parseNFTdata);
+          const newState = items.filter(filterNFTsOnly).map(parseNFTdata);
 
-        setState(newState);
+          setState(newState);
+        }
       } catch (err) {
         console.error(err);
       }
     })();
-  }, []);
+  }, [active, chainId, account]);
+
+  if (!active) {
+    return (
+      <div className={styles.container}>
+        Please connect with your Metamask to continue
+      </div>
+    );
+  }
+
+  if (!state.length) {
+    return (
+      <div className={styles.container}>
+        <p>No products added. Go to Admin page and add some.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.content}>
-      {state ? (
-        state.map((card: IToken) => <NFTCard key={card.tokenId} token={card} />)
-      ) : (
-        <Text>Login to Metamask to see your NFTs</Text>
-      )}
+    <div className={styles.container}>
+      <div className={styles.heading}>
+        <Text>Connected with: {account}</Text>
+      </div>
+      <div className={styles.content}>
+        {state.map((card: IToken) => (
+          <NFTCard key={card.tokenId} token={card} />
+        ))}
+      </div>
     </div>
   );
 };

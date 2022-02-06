@@ -9,7 +9,7 @@ export const urlBuilder = ({
   chainId,
   address,
 }: {
-  chainId: string;
+  chainId: number;
   address: string;
 }): string => {
   return `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/?quote-currency=USD&format=JSON&nft=true&no-nft-fetch=false&key=${process.env.REACT_APP_COVALENTHQ_API_KEY}`;
