@@ -1,5 +1,11 @@
 @import '../styles/layouts';
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .heading {
   padding: 0 16px;
   margin-bottom: 38px;
@@ -7,4 +13,11 @@
 
 .content {
   @include layout-3-cols;
+}
+
+.input {
+  display: block;
+  width: 70vw;
+  max-width: 600px;
+  margin-bottom: 20px;
 }

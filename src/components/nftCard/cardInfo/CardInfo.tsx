@@ -7,12 +7,15 @@ import Text from '../../../common/text';
 // Styles
 import styles from './cardInfo.module.scss';
 
+// Utils
+import { outboundLinkBuilder } from '../../../utils';
+
 interface CardInfoProps {
   content: IToken;
 }
 
 const CardInfo = ({ content }: CardInfoProps): JSX.Element => {
-  const { tokenId, tokenAddress, link } = content;
+  const { tokenId, contractAddress } = content;
 
   return (
     <div className={styles.cardInfo}>
@@ -23,7 +26,7 @@ const CardInfo = ({ content }: CardInfoProps): JSX.Element => {
       <div className={styles.tokenAddressInfo}>
         <Text className={styles.tokenLabel}>Token Address</Text>
         <div className={styles.tokenAddress}>
-          <a href={link}>{tokenAddress}</a>
+          <a href={outboundLinkBuilder(contractAddress)}>{contractAddress}</a>
         </div>
       </div>
     </div>

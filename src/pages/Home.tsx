@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useWeb3React } from '@web3-react/core';
 
@@ -14,30 +14,41 @@ import { urlBuilder, filterNFTsOnly, parseNFTdata } from '../utils';
 
 // Styles
 import styles from './home.module.scss';
+import Button from '../common/button';
 
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[]>([]);
-  const { active, chainId, account } = useWeb3React();
+  const [address, setAddress] = useState('');
+  const [shoudShowData, setShoudShowData] = useState(false);
+  const { active, account } = useWeb3React();
+
+  const getData = useCallback(async (): Promise<void> => {
+    try {
+      if (address && shoudShowData) {
+        setShoudShowData(false);
+
+        const data = await axios.get(
+          // Uses Mainnet. To use other chains add chainId from useWeb3React
+          urlBuilder({ account: address }),
+        );
+
+        const { items } = data.data.data;
+
+        const newState = items.filter(filterNFTsOnly).map(parseNFTdata).flat();
+
+        setState(newState);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+    }
+  }, [address, shoudShowData]);
 
   useEffect(() => {
-    (async function getData() {
-      try {
-        if (active && chainId && account) {
-          const data = await axios.get(
-            urlBuilder({ chainId, address: account }),
-          );
-
-          const { items } = data.data.data;
-
-          const newState = items.filter(filterNFTsOnly).map(parseNFTdata);
-
-          setState(newState);
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    })();
-  }, [active, chainId, account]);
+    if (active) {
+      getData();
+    }
+  }, [active, getData]);
 
   if (!active) {
     return (
@@ -49,8 +60,16 @@ export const Home = (): JSX.Element => {
 
   if (!state.length) {
     return (
-      <div className={styles.container}>
-        <p>No products added. Go to Admin page and add some.</p>
+      <div>
+        <p>No NFTs for this wallet address. Add another address manually.</p>
+        <div className={styles.container}>
+          <input
+            className={styles.input}
+            onChange={(e) => setAddress(e.target.value)}
+            value={address}
+          />
+          <Button onClick={() => setShoudShowData(true)}>Show</Button>
+        </div>
       </div>
     );
   }
