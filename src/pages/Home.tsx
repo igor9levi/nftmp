@@ -29,7 +29,10 @@ export const Home = (): JSX.Element => {
 
           const { items } = data.data.data;
 
-          const newState = items.filter(filterNFTsOnly).map(parseNFTdata);
+          const newState = items
+            .filter(filterNFTsOnly)
+            .map(parseNFTdata)
+            .flat();
 
           setState(newState);
         }

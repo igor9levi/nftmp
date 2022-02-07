@@ -1,5 +1,5 @@
 import { ERC721, ERC1155 } from '../const';
-import { IToken } from '../types';
+import { CovalentTokenBalanceData, IToken } from '../types';
 
 export const noop = (): void => {
   // do nothing
@@ -34,15 +34,24 @@ export const isNFT = (token: string[] | string): boolean => {
   return false;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const filterNFTsOnly = <T>(nft: any): T =>
-  isNFT(nft.supports_erc) && nft.nft_data?.[0];
+// TODO:  remove any type
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseNFTdata = (nft: any): IToken =>
-  ({
-    tokenId: nft.nft_data[0]?.token_id,
-    thumbnail: nft.nft_data[0]?.external_data.image,
-    tokenAddress: nft.nft_data[0]?.token_url,
-    link: nft.nft_data[0]?.external_data?.external_url,
-  } as IToken);
+export const filterNFTsOnly = <CovalentTokenBalanceData>(nft: any): any => {
+  if (isNFT(nft.supports_erc)) {
+    console.log(nft);
+  }
+  return isNFT(nft.supports_erc) && nft.nft_data.length > 0;
+};
+
+export const parseNFTdata = (nftToken: any): IToken => {
+  return nftToken.nft_data.map(
+    (nft: any) =>
+      ({
+        tokenId: nft.token_id,
+        thumbnail: nft.external_data.image,
+        tokenAddress: nft.token_url,
+        link: nft.external_data?.external_url,
+      } as IToken),
+  );
+};
