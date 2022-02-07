@@ -56,7 +56,7 @@ export const useThemeSetup = (): void => {
     if (storedTheme) {
       setTheme(storedTheme);
     }
-  }, [setTheme]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const themeClasses = Object.values(THEME).map((v) => `theme-${v}`);

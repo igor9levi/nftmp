@@ -11,3 +11,6 @@ export default {
 const Template: ComponentStory<typeof Header> = () => <Header />;
 
 export const Base = Template.bind({});
+Base.args = {
+  metamaskLoading: false,
+};
