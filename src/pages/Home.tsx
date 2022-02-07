@@ -34,6 +34,7 @@ export const Home = (): JSX.Element => {
           setState(newState);
         }
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err);
       }
     })();

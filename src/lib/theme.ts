@@ -9,7 +9,6 @@ interface ThemeStore {
   toggleDarkLightTheme: () => void;
 }
 
-// TODO: enum
 export const THEME = {
   DARK: 'dark',
   LIGHT: 'light',

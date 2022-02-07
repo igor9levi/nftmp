@@ -16,6 +16,7 @@ export const ThemeModeToggle = ({
       className={className}
       {...restProps}
     >
+      {/* eslint-disable-next-line react/no-danger */}
       <span dangerouslySetInnerHTML={{ __html: THEME_EMOJI[theme] }} />
     </Button>
   );

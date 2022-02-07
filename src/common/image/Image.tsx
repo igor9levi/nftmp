@@ -22,6 +22,8 @@ export const Image = ({
   const imageOnErrorHandler = (
     event: React.SyntheticEvent<HTMLImageElement, Event>,
   ): void => {
+    // eslint-disable-next-line no-console
+    console.error(`Missing image: ${(event.target as HTMLImageElement).src}`);
     setSource(FALLBACK_IMAGE);
   };
 
