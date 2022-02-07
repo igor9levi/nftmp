@@ -1,5 +1,5 @@
 import { ERC721, ERC1155, ChainIds } from '../const';
-import { CovalentTokenBalanceData, IToken } from '../types';
+import { CovalentTokenBalanceData, CovalentNFTData, IToken } from '../types';
 
 export const noop = (): void => {
   // do nothing
@@ -38,21 +38,21 @@ export const isNFT = (token: string[] | string): boolean => {
   return false;
 };
 
-// TODO:  remove any type, uncomment filterNFTsOnly
+export const filterNFTsOnly = (nft: CovalentTokenBalanceData): boolean =>
+  Boolean(isNFT(nft.supports_erc) && nft.nft_data?.length);
 
-export const filterNFTsOnly = (nft: any): any =>
-  isNFT(nft.supports_erc) && nft.nft_data?.length > 0;
+export const parseNFTdata = (nftToken: CovalentTokenBalanceData): IToken[] => {
+  if (!nftToken.nft_data) return [];
 
-export const parseNFTdata = (nftToken: any): IToken => {
   return nftToken.nft_data.map(
-    (nft: any) =>
+    (nft: CovalentNFTData) =>
       ({
         types: nftToken.supports_erc,
         contractAddress: nftToken.contract_address,
         tokenId: nft.token_id,
         thumbnail: nft.external_data.image,
         externalUrl: nft.external_data?.external_url,
-        tokenUrl: nftToken.token_url,
+        tokenUrl: nft.token_url,
       } as IToken),
   );
 };

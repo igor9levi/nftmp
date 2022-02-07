@@ -10,6 +10,9 @@ import Home from './pages';
 // Styles
 import styles from './App.module.scss';
 
+// Library itself uses type any
+// https://github.com/Uniswap/interface/blob/main/src/utils/getLibrary.ts#L13
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getLibrary(provider: any): any {
   return new ethers.providers.Web3Provider(provider);
 }
