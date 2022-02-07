@@ -9,7 +9,6 @@ interface ThemeStore {
   toggleDarkLightTheme: () => void;
 }
 
-// TODO: enum
 export const THEME = {
   DARK: 'dark',
   LIGHT: 'light',
@@ -57,7 +56,7 @@ export const useThemeSetup = (): void => {
     if (storedTheme) {
       setTheme(storedTheme);
     }
-  }, []);
+  }, [setTheme]);
 
   useEffect(() => {
     const themeClasses = Object.values(THEME).map((v) => `theme-${v}`);

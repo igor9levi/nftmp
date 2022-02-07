@@ -16,6 +16,7 @@ export const Header = (): JSX.Element => {
     try {
       await activate(injected);
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
     }
   }, [activate]);
@@ -24,6 +25,7 @@ export const Header = (): JSX.Element => {
     try {
       await deactivate();
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
     }
   }, [deactivate]);

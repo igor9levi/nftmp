@@ -50,7 +50,7 @@
       2,
       { "namedComponents": "arrow-function" }
     ],
-    "react/jsx-props-no-spreading": "warn",
+    "react/jsx-props-no-spreading": "off",
     "import/no-extraneous-dependencies": [
       "error",
       {
