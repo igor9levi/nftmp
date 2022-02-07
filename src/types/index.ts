@@ -60,7 +60,7 @@ export type CovalentNFTExternalData = {
 
 export type CovalentNFTData = {
   burned: null | unknown;
-  external_data: Record<string, CovalentNFTExternalData>;
+  external_data: CovalentNFTExternalData;
   original_owner: string;
   owner: string;
   owner_address: string | null;
