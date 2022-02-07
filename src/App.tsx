@@ -10,6 +10,7 @@ import Home from './pages';
 // Styles
 import styles from './App.module.scss';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getLibrary(provider: any): any {
   return new ethers.providers.Web3Provider(provider);
 }

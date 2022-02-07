@@ -56,7 +56,7 @@ export const useThemeSetup = (): void => {
     if (storedTheme) {
       setTheme(storedTheme);
     }
-  }, []);
+  }, [setTheme]);
 
   useEffect(() => {
     const themeClasses = Object.values(THEME).map((v) => `theme-${v}`);

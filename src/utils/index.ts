@@ -34,9 +34,11 @@ export const isNFT = (token: string[] | string): boolean => {
   return false;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const filterNFTsOnly = <T>(nft: any): T =>
   isNFT(nft.supports_erc) && nft.nft_data?.[0];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const parseNFTdata = (nft: any): IToken =>
   ({
     tokenId: nft.nft_data[0]?.token_id,
