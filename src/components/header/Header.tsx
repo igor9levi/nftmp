@@ -9,7 +9,11 @@ import ThemeModeToggle from '../themeModeToggle';
 import styles from './header.module.scss';
 import Button from '../../common/button';
 
-export const Header = (): JSX.Element => {
+type HeaderProps = {
+  metamaskLoading?: boolean;
+};
+
+export const Header = ({ metamaskLoading }: HeaderProps): JSX.Element => {
   const { active, activate, deactivate } = useWeb3React();
 
   const connect = useCallback(async (): Promise<void> => {
@@ -38,15 +42,19 @@ export const Header = (): JSX.Element => {
           <h1 className={styles.title}>NFT Marketplace</h1>
         </div>
         <div>
-          {active ? (
-            <Button onClick={disconnect}>Logout</Button>
+          {active && !metamaskLoading ? (
+            <Button onClick={disconnect}>Disconnect</Button>
           ) : (
-            <Button onClick={connect}>Login</Button>
+            <Button onClick={connect}>Connect</Button>
           )}
         </div>
       </div>
     </header>
   );
+};
+
+Header.defaultProps = {
+  metamaskLoading: false,
 };
 
 export default Header;
