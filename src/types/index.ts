@@ -52,7 +52,7 @@ export type PokemonData = {
 };
 
 // Covalent API Response
-export type CovalentExternalData = {
+export type CovalentNFTExternalData = {
   animation_url: string | null;
   attributes: Record<string, string | number>[];
   description: string;
@@ -65,9 +65,9 @@ export type CovalentExternalData = {
   owner: string | null;
 };
 
-export type NFTData = {
+export type CovalentNFTData = {
   burned: null | unknown;
-  external_data: Record<string, CovalentExternalData>;
+  external_data: Record<string, CovalentNFTExternalData>;
   original_owner: string;
   owner: string;
   owner_address: string | null;
@@ -80,19 +80,19 @@ export type NFTData = {
 };
 
 export type CovalentTokenBalanceData = {
-  balance: string;
-  balance_24h: null | unknown;
+  balance: string | null;
+  balance_24h: string | null;
   contract_address: string;
   contract_decimals: number;
   contract_name: string;
-  contract_ticker_symbol: null | unknown;
-  last_transferred_at: Date;
+  contract_ticker_symbol: string | null;
+  last_transferred_at: Date | null;
   logo_url: string;
-  nft_data: NFTData[];
-  quote: number;
-  quote_24h: null | unknown;
-  quote_rate: number;
-  quote_rate_24h: null | unknown;
+  nft_data: CovalentNFTData[] | null;
+  quote: number | null;
+  quote_24h: number | null;
+  quote_rate: number | null;
+  quote_rate_24h: number | null;
   supports_erc: string[];
   type: string;
 };

@@ -37,12 +37,8 @@ export const isNFT = (token: string[] | string): boolean => {
 // TODO:  remove any type
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const filterNFTsOnly = <CovalentTokenBalanceData>(nft: any): any => {
-  if (isNFT(nft.supports_erc)) {
-    console.log(nft);
-  }
-  return isNFT(nft.supports_erc) && nft.nft_data.length > 0;
-};
+export const filterNFTsOnly = (nft: any): any =>
+  isNFT(nft.supports_erc) && nft.nft_data?.length > 0;
 
 export const parseNFTdata = (nftToken: any): IToken => {
   return nftToken.nft_data.map(
