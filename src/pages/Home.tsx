@@ -24,7 +24,8 @@ export const Home = (): JSX.Element => {
       try {
         if (active && chainId && account) {
           const data = await axios.get(
-            urlBuilder({ chainId, address: account }),
+            urlBuilder({ account }), // Use Mainnet
+            // urlBuilder({ chainId, account }),
           );
 
           const { items } = data.data.data;
@@ -55,6 +56,7 @@ export const Home = (): JSX.Element => {
     return (
       <div className={styles.container}>
         <p>No products added. Go to Admin page and add some.</p>
+        {/* TODO: Add input field for different address */}
       </div>
     );
   }

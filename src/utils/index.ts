@@ -1,4 +1,4 @@
-import { ERC721, ERC1155 } from '../const';
+import { ERC721, ERC1155, ChainIds } from '../const';
 import { CovalentTokenBalanceData, IToken } from '../types';
 
 export const noop = (): void => {
@@ -6,20 +6,24 @@ export const noop = (): void => {
 };
 
 export const urlBuilder = ({
-  chainId,
-  address,
+  chainId = ChainIds.Mainnet,
+  account,
 }: {
-  chainId: number;
-  address: string;
+  chainId?: number;
+  account: string;
 }): string => {
   return (
-    `https://api.covalenthq.com/v1/${chainId}/address/${address}/balances_v2/` +
+    `https://api.covalenthq.com/v1/${chainId}/address/${account}/balances_v2/` +
     `?quote-currency=USD` +
     `&format=JSON` +
     `&nft=true` +
     `&no-nft-fetch=false` +
     `&key=${process.env.REACT_APP_COVALENTHQ_API_KEY}`
   );
+};
+
+export const outboundLinkBuilder = (address: string): string => {
+  return `https://etherscan.io/address/${address}`;
 };
 
 export const isNFT = (token: string[] | string): boolean => {
@@ -34,9 +38,8 @@ export const isNFT = (token: string[] | string): boolean => {
   return false;
 };
 
-// TODO:  remove any type
+// TODO:  remove any type, uncomment filterNFTsOnly
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const filterNFTsOnly = (nft: any): any =>
   isNFT(nft.supports_erc) && nft.nft_data?.length > 0;
 
@@ -44,10 +47,12 @@ export const parseNFTdata = (nftToken: any): IToken => {
   return nftToken.nft_data.map(
     (nft: any) =>
       ({
+        types: nftToken.supports_erc,
+        contractAddress: nftToken.contract_address,
         tokenId: nft.token_id,
         thumbnail: nft.external_data.image,
-        tokenAddress: nft.token_url,
-        link: nft.external_data?.external_url,
+        externalUrl: nft.external_data?.external_url,
+        tokenUrl: nftToken.token_url,
       } as IToken),
   );
 };

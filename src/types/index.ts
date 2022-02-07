@@ -3,20 +3,24 @@ import React from 'react';
 export type TokenType = 'ERC721' | 'ERC1155';
 
 export interface IToken {
-  tokenId: string;
   /**
-   * ERC721 | ERC1155
+   * Array of supported token types e.g. ERC721, ERC1155
    */
-  type: TokenType;
+  types: string[];
   /**
    * NFT token image
    */
   thumbnail: string;
-  tokenAddress: string;
   /**
-   * Link to view token
+   * Address of Smart contract
    */
-  link: string;
+  contractAddress: string;
+  tokenId: string;
+  /**
+   * Token metadata
+   */
+  externalUrl: string | null;
+  tokenUrl: string | null;
 }
 
 // Sizes
@@ -36,25 +40,14 @@ export interface IText {
   size: Size;
 }
 
-export type PokemonData = {
-  id: string;
-  number: string;
-  name: string;
-  image: string;
-  fetchedAt: string;
-  attacks: {
-    special: Array<{
-      name: string;
-      type: string;
-      damage: number;
-    }>;
-  };
-};
-
 // Covalent API Response
 export type CovalentNFTExternalData = {
   animation_url: string | null;
-  attributes: Record<string, string | number>[];
+  attributes: Array<{
+    display_type: string;
+    trait_type: string;
+    value: string | number;
+  }>;
   description: string;
   external_url: string | null;
   image: string;
