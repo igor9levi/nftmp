@@ -7,7 +7,7 @@ import Text from '../common/text';
 import NFTCard from '../components/nftCard';
 
 // Types
-import { IToken } from '../types';
+import { CovalentTokenBalanceData, IToken } from '../types';
 
 // Utils
 import { urlBuilder, filterNFTsOnly, parseNFTdata } from '../utils';
@@ -15,6 +15,15 @@ import { urlBuilder, filterNFTsOnly, parseNFTdata } from '../utils';
 // Styles
 import styles from './home.module.scss';
 import Button from '../common/button';
+
+type JSONResponse = {
+  data: {
+    data: {
+      items: CovalentTokenBalanceData[];
+    };
+  };
+  // errors?: Array<{ message: string }>;
+};
 
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[]>([]);
@@ -27,7 +36,7 @@ export const Home = (): JSX.Element => {
       if (address && shoudShowData) {
         setShoudShowData(false);
 
-        const data = await axios.get(
+        const data: JSONResponse = await axios.get(
           // Uses Mainnet. To use other chains add chainId from useWeb3React
           urlBuilder({ account: address }),
         );
@@ -61,6 +70,9 @@ export const Home = (): JSX.Element => {
   if (!state.length) {
     return (
       <div>
+        <div className={styles.heading}>
+          <Text>Connected with: {account}</Text>
+        </div>
         <p>No NFTs for this wallet address. Add another address manually.</p>
         <div className={styles.container}>
           <input
