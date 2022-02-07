@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import NFTCard from './NFTCard';
-import { TokenType } from '../../types';
 
 export default {
   title: 'Components/NFTCard',
