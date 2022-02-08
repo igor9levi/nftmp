@@ -19,8 +19,8 @@ export const UnsupportedNetwork = (): JSX.Element => {
     <div className={styles.container}>
       <p>Unsupported network!</p>
       <p className={styles.note}>
-        Please switch to <strong>Mainnet</strong> network in order to use this
-        app.
+        Please click on the button to switch to <strong>Mainnet</strong>{' '}
+        network.
       </p>
       <Button onClick={handleChangeNetwork}>Switch to Mainnet</Button>
     </div>

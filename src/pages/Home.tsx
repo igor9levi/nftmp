@@ -21,35 +21,52 @@ type JSONResponse = {
     data: {
       items: CovalentTokenBalanceData[];
     };
+    error: boolean;
+    error_code: null | unknown;
+    error_message: null | unknown;
   };
-  // errors?: Array<{ message: string }>;
+  config: unknown;
+  headers: unknown;
+  request: unknown;
+  status: number;
+  statusText: string;
 };
 
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[]>([]);
   const [address, setAddress] = useState('');
   const [shoudShowData, setShoudShowData] = useState(false);
+  const [searchedAddress, setSearchedAddress] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const { active, account } = useWeb3React();
 
   const getData = useCallback(async (): Promise<void> => {
     try {
       if (address && shoudShowData) {
-        setShoudShowData(false);
-
         const data: JSONResponse = await axios.get(
           // Uses Mainnet. To use other chains add chainId from useWeb3React
           urlBuilder({ account: address }),
         );
+
+        console.log(data);
 
         const { items } = data.data.data;
 
         const newState = items.filter(filterNFTsOnly).map(parseNFTdata).flat();
 
         setState(newState);
+
+        if (shoudShowData) {
+          setSearchedAddress(address);
+        }
+
+        setShoudShowData(false);
+        setError(null);
       }
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
+      setError('Data could not be fetched');
     }
   }, [address, shoudShowData]);
 
@@ -82,6 +99,8 @@ export const Home = (): JSX.Element => {
           />
           <Button onClick={() => setShoudShowData(true)}>Show</Button>
         </div>
+        {searchedAddress && <Text>No NFTs for address: {searchedAddress}</Text>}
+        {error && <Text>{`${error} for:  ${searchedAddress}`}</Text>}
       </div>
     );
   }
