@@ -21,13 +21,21 @@ type JSONResponse = {
     data: {
       items: CovalentTokenBalanceData[];
     };
+    error: boolean;
+    error_code: null | unknown;
+    error_message: null | unknown;
   };
-  // errors?: Array<{ message: string }>;
+  config: unknown;
+  headers: unknown;
+  request: unknown;
+  status: number;
+  statusText: string;
 };
 
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[]>([]);
   const [address, setAddress] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [isAddressManuallyEntered, setAddressManuallyEntered] = useState(false);
   const { active, account } = useWeb3React();
 
@@ -46,6 +54,7 @@ export const Home = (): JSX.Element => {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
+      setError('Data could not be fetched');
     }
   };
 
@@ -91,6 +100,7 @@ export const Home = (): JSX.Element => {
         {isAddressManuallyEntered && (
           <div>No NFTs for this address {address}</div>
         )}
+        {error && <Text className={styles.error}>{error}</Text>}
       </div>
     );
   }
