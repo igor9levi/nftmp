@@ -14,7 +14,7 @@ interface ModalStore {
 export const useModal = create<ModalStore>((set) => ({
   isModalOpen: false,
   token: null,
-  open: (options: IToken): void =>
+  open: (options: IToken | null): void =>
     set(() => {
       return { isModalOpen: true, token: options };
     }),
