@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 // Styles
 import styles from './transferModal.module.scss';
 import Button from '../../common/button';
+import Text from '../../common/text';
 
 // Hooks
 import { useModal } from '../../hooks/useModal';
@@ -24,8 +25,14 @@ const customStyles = {
 export const TransferModal = (): JSX.Element => {
   const { isModalOpen, token, close } = useModal();
   const [transferAddress, setTransferAddress] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const initiateTransfer = (): null => {
+    if (!transferAddress) {
+      setError('Please put destination address');
+      return null;
+    }
+    alert('transfer on way');
     // TODO: implement
     return null;
   };
@@ -48,6 +55,7 @@ export const TransferModal = (): JSX.Element => {
             className={styles.input}
             onChange={(e) => setTransferAddress(e.target.value)}
           />
+          {error && <Text className={styles.error}>{error}</Text>}
           <Button className={styles.submit} onClick={initiateTransfer}>
             Transfer
           </Button>
