@@ -35,6 +35,7 @@ type JSONResponse = {
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[]>([]);
   const [address, setAddress] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const [isAddressManuallyEntered, setAddressManuallyEntered] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { active, account } = useWeb3React();
