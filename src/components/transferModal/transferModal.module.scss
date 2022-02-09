@@ -1,0 +1,31 @@
+.container {
+  position: relative;
+  width: 500px;
+}
+
+.closeButton {
+  position: absolute;
+  top: -30px;
+  right: -5px;
+}
+
+.title {
+  text-align: center;
+}
+
+.input {
+  display: inline-block;
+  width: 80%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submit {
+  display: inline-block;
+  max-width: 200px;
+  margin-top: 20px;
+}

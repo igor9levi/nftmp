@@ -10,6 +10,7 @@ import styles from './cardInfo.module.scss';
 // Utils
 import { outboundLinkBuilder } from '../../../utils';
 import Button from '../../../common/button';
+import { useModal } from '../../../hooks/useModal';
 
 interface CardInfoProps {
   content: IToken;
@@ -17,6 +18,7 @@ interface CardInfoProps {
 
 const CardInfo = ({ content }: CardInfoProps): JSX.Element => {
   const { tokenId, contractAddress } = content;
+  const { open } = useModal();
 
   return (
     <div className={styles.container}>
@@ -40,6 +42,7 @@ const CardInfo = ({ content }: CardInfoProps): JSX.Element => {
       </div>
       <Button
         onClick={() => {
+          open(content);
           /* noop */
         }}
       >

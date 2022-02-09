@@ -48,8 +48,6 @@ export const Home = (): JSX.Element => {
           urlBuilder({ account: address }),
         );
 
-        console.log(data);
-
         const { items } = data.data.data;
 
         const newState = items.filter(filterNFTsOnly).map(parseNFTdata).flat();
