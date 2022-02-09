@@ -26,7 +26,13 @@ const CardInfo = ({ content }: CardInfoProps): JSX.Element => {
       <div className={styles.tokenAddressInfo}>
         <Text className={styles.tokenLabel}>Token Address</Text>
         <div className={styles.tokenAddress}>
-          <a href={outboundLinkBuilder(contractAddress)}>{contractAddress}</a>
+          <a
+            target="_blank"
+            href={outboundLinkBuilder(contractAddress)}
+            rel="noreferrer"
+          >
+            {contractAddress}
+          </a>
         </div>
       </div>
     </div>
