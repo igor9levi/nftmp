@@ -28,36 +28,42 @@ type JSONResponse = {
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[]>([]);
   const [address, setAddress] = useState('');
-  const [shoudShowData, setShoudShowData] = useState(false);
+  const [isAddressManuallyEntered, setAddressManuallyEntered] = useState(false);
   const { active, account } = useWeb3React();
 
-  const getData = useCallback(async (): Promise<void> => {
+  const getData = async (accountAddress: string): Promise<void> => {
     try {
-      if (address && shoudShowData) {
-        setShoudShowData(false);
+      const data: JSONResponse = await axios.get(
+        // Uses Mainnet. To use other chains add chainId from useWeb3React
+        urlBuilder({ account: accountAddress }),
+      );
 
-        const data: JSONResponse = await axios.get(
-          // Uses Mainnet. To use other chains add chainId from useWeb3React
-          urlBuilder({ account: address }),
-        );
+      const { items } = data.data.data;
 
-        const { items } = data.data.data;
+      const newState = items.filter(filterNFTsOnly).map(parseNFTdata).flat();
 
-        const newState = items.filter(filterNFTsOnly).map(parseNFTdata).flat();
-
-        setState(newState);
-      }
+      setState(newState);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
     }
-  }, [address, shoudShowData]);
+  };
 
   useEffect(() => {
-    if (active) {
-      getData();
+    if (account) {
+      getData(account);
     }
-  }, [active, getData]);
+  }, [account]);
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setAddressManuallyEntered(false);
+    setAddress(e.target.value);
+  };
+
+  const searchHandler = (): void => {
+    setAddressManuallyEntered(true);
+    getData(address);
+  };
 
   if (!active) {
     return (
@@ -77,11 +83,14 @@ export const Home = (): JSX.Element => {
         <div className={styles.container}>
           <input
             className={styles.input}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={handleOnChange}
             value={address}
           />
-          <Button onClick={() => setShoudShowData(true)}>Show</Button>
+          <Button onClick={searchHandler}>Show</Button>
         </div>
+        {isAddressManuallyEntered && (
+          <div>No NFTs for this address {address}</div>
+        )}
       </div>
     );
   }
