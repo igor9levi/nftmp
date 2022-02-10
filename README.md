@@ -4,7 +4,7 @@ App used to connect to Metamask wallet and show NFTs (ERC721, ERC1155) held by t
 
 [Covalent API](https://www.covalenthq.com/docs/api/#/0/Class-A/Get-token-balances-for-address/lng=en)
 
-![example event workflow](https://github.com/igor9levi/nftmp/actions/workflows/main.yml/badge.svg?branch=main&event=push)
+![workflow status](https://github.com/igor9levi/nftmp/actions/workflows/node.js.yml/badge.svg?branch=main&event=push)
 
 ## Available Scripts
 
