@@ -10,6 +10,10 @@ export const getErrorMessage = (error: unknown): string => {
   return String(error);
 };
 
+export const isERC721 = (type: string | undefined): boolean => type === ERC721;
+export const isERC1155 = (type: string | undefined): boolean =>
+  type === ERC1155;
+
 export const urlBuilder = ({
   chainId = ChainIds.Mainnet,
   account,

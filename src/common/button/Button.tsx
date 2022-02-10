@@ -1,6 +1,5 @@
 import React from 'react';
 import classnames from 'classnames/bind';
-import { noop } from '../../utils';
 import { Size } from '../../types';
 
 import styles from './button.module.scss';
@@ -23,7 +22,7 @@ interface ButtonProps {
   /**
    * Optional click handler
    */
-  onClick?: () => void;
+  onClick: () => void;
   /**
    * Optional className
    */
@@ -55,7 +54,6 @@ Button.defaultProps = {
   ghost: false,
   size: 'md',
   className: '',
-  onClick: noop,
 };
 
 export default Button;

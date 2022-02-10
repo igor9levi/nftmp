@@ -43,7 +43,6 @@ const CardInfo = ({ content }: CardInfoProps): JSX.Element => {
       <Button
         onClick={() => {
           open(content);
-          /* noop */
         }}
       >
         Transfer NFT to another account

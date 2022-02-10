@@ -18,8 +18,7 @@ import erc721abi from '../../contracts/erc721-abi.json';
 import erc1155abi from '../../contracts/erc1155-abi.json';
 
 // Utils
-import { ERC1155, ERC721 } from '../../const';
-import { getErrorMessage } from '../../utils';
+import { getErrorMessage, isERC1155, isERC721 } from '../../utils';
 
 Modal.setAppElement('#modal');
 
@@ -42,9 +41,6 @@ export const TransferModal = (): JSX.Element => {
   const { library, account } = useWeb3React();
   const { currentAddress } = useAddress();
 
-  const isERC721 = (): boolean => token?.type === ERC721;
-  const isERC1155 = (): boolean => token?.type === ERC1155;
-
   const isTransferPossible = (): boolean => {
     if (!token) {
       setError('NFT data missing');
@@ -56,7 +52,7 @@ export const TransferModal = (): JSX.Element => {
       return false;
     }
 
-    if (!token.type) {
+    if (!token.type || !isERC721(token?.type) || !isERC1155(token?.type)) {
       setError('Unrecognized token type');
       return false;
     }
@@ -78,17 +74,19 @@ export const TransferModal = (): JSX.Element => {
 
     let ABI;
 
-    if (isERC721()) {
+    if (isERC721(token?.type)) {
       ABI = erc721abi;
-    } else if (isERC1155()) {
+    } else {
       ABI = erc1155abi;
     }
 
-    if (!token?.contractAddress || !ABI) {
-      return null;
+    let contract = null;
+
+    if (token?.type) {
+      contract = new Contract(token.contractAddress, ABI, signerOrProvider);
     }
 
-    return new Contract(token.contractAddress, ABI, signerOrProvider);
+    return contract;
   };
 
   const initiateTransfer = async (): Promise<null> => {
@@ -102,7 +100,9 @@ export const TransferModal = (): JSX.Element => {
       return null;
     }
 
-    const transferMethod = isERC721() ? 'transferFrom' : 'safeTransferFrom';
+    const transferMethod = isERC721(token?.type)
+      ? 'transferFrom'
+      : 'safeTransferFrom';
 
     let transaction;
     const from = currentAddress || account;
@@ -112,7 +112,8 @@ export const TransferModal = (): JSX.Element => {
     try {
       // Get tokenURI metadata from contract only on erc721
       const metadata =
-        isERC721() && (await ContractInstance.tokenURI(token?.tokenId));
+        isERC721(token?.type) &&
+        (await ContractInstance.tokenURI(token?.tokenId));
       // eslint-disable-next-line no-console
       console.log('tokerURI metadata: ', metadata);
 
