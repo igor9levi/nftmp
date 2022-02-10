@@ -35,8 +35,10 @@ type JSONResponse = {
   statusText: string;
 };
 
+const initialState: IToken[] = [];
+
 export const Home = (): JSX.Element => {
-  const [state, setState] = useState<IToken[]>([]);
+  const [state, setState] = useState<IToken[]>(initialState);
   const [address, setAddress] = useState('');
   const [isAddressManuallyEntered, setAddressManuallyEntered] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -79,6 +81,18 @@ export const Home = (): JSX.Element => {
     getData(address);
   };
 
+  const handleSwitchAccount = async (): Promise<void> => {
+    setAddress('');
+    await window.ethereum.request({
+      method: 'wallet_requestPermissions',
+      params: [
+        {
+          eth_accounts: {},
+        },
+      ],
+    });
+  };
+
   if (!active) {
     return (
       <div className={styles.container}>
@@ -92,6 +106,7 @@ export const Home = (): JSX.Element => {
       <div>
         <div className={styles.heading}>
           <Text>Connected with: {account}</Text>
+          <Button onClick={handleSwitchAccount}>Switch account</Button>
         </div>
         <p>No NFTs for this wallet address. Add another address manually.</p>
         <div className={styles.container}>
@@ -114,6 +129,7 @@ export const Home = (): JSX.Element => {
     <div className={styles.container}>
       <div className={styles.heading}>
         <Text>Connected with: {account}</Text>
+        <Button onClick={handleSwitchAccount}>Switch account</Button>
       </div>
       <div className={styles.content}>
         {state.map((card: IToken) => (
