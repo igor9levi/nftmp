@@ -10,7 +10,12 @@ import NFTCard from '../components/nftCard';
 import { CovalentTokenBalanceData, IToken } from '../types';
 
 // Utils
-import { urlBuilder, filterNFTsOnly, parseNFTdata } from '../utils';
+import {
+  urlBuilder,
+  filterNFTsOnly,
+  parseNFTdata,
+  getErrorMessage,
+} from '../utils';
 
 // Styles
 import styles from './home.module.scss';
@@ -83,14 +88,23 @@ export const Home = (): JSX.Element => {
 
   const handleSwitchAccount = async (): Promise<void> => {
     setAddress('');
-    await window.ethereum.request({
-      method: 'wallet_requestPermissions',
-      params: [
-        {
-          eth_accounts: {},
-        },
-      ],
-    });
+    try {
+      await window.ethereum.request({
+        method: 'wallet_requestPermissions',
+        params: [
+          {
+            eth_accounts: {},
+          },
+        ],
+      });
+    } catch (err) {
+      if (err.code === '4001') {
+        // EIP-1193 userRejectedRequest error
+        setError(getErrorMessage('Please connect to MetaMask.'));
+      } else {
+        setError(getErrorMessage(err.message));
+      }
+    }
   };
 
   if (!active) {
