@@ -5,6 +5,20 @@ export const noop = (): void => {
   // do nothing
 };
 
+export const getErrorMessage = (error: unknown): string => {
+  if (error instanceof Error) return error.message;
+  return String(error);
+};
+
+export const isERC721 = (type: string | undefined): boolean => type === ERC721;
+
+export const isERC1155 = (type: string | undefined): boolean =>
+  type === ERC1155;
+
+export const isNFT = (tokenType: string): boolean => {
+  return isERC721(tokenType) || isERC1155(tokenType);
+};
+
 export const urlBuilder = ({
   chainId = ChainIds.Mainnet,
   account,
@@ -26,20 +40,33 @@ export const outboundLinkBuilder = (address: string): string => {
   return `https://etherscan.io/address/${address}`;
 };
 
-export const isNFT = (token: string[] | string): boolean => {
-  if (Array.isArray(token)) {
-    return token.includes(ERC1155) || token.includes(ERC721);
-  }
-  if (typeof token === 'string') {
-    const tokenType = token.toLowerCase();
-    return tokenType === ERC721 || tokenType === ERC721;
+export const extractType = (types: string[] | null): string => {
+  if (!types) {
+    return '';
   }
 
-  return false;
+  let tokenType = '';
+
+  types.forEach((type) => {
+    const currentType = type.toLowerCase();
+    if (isNFT(currentType)) {
+      tokenType = currentType;
+    }
+  });
+
+  return tokenType;
+};
+
+export const containsNFT = (tokenTypes: string[]): boolean => {
+  const tokenType = extractType(tokenTypes);
+
+  return isNFT(tokenType);
 };
 
 export const filterNFTsOnly = (nft: CovalentTokenBalanceData): boolean =>
-  Boolean(isNFT(nft.supports_erc) && nft.nft_data?.length);
+  Boolean(
+    nft.supports_erc && containsNFT(nft.supports_erc) && nft.nft_data?.length,
+  );
 
 export const parseNFTdata = (nftToken: CovalentTokenBalanceData): IToken[] => {
   if (!nftToken.nft_data) return [];
@@ -48,6 +75,7 @@ export const parseNFTdata = (nftToken: CovalentTokenBalanceData): IToken[] => {
     (nft: CovalentNFTData) =>
       ({
         types: nftToken.supports_erc,
+        type: extractType(nftToken.supports_erc),
         contractAddress: nftToken.contract_address,
         tokenId: nft.token_id,
         thumbnail: nft.external_data.image,

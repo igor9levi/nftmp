@@ -11,3 +11,8 @@
   max-width: 300px;
   text-align: center;
 }
+
+.error {
+  color: var(--error-message);
+  margin: 10px 0;
+}

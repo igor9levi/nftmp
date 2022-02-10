@@ -7,6 +7,10 @@
   --eggshell-rgb: 244, 244, 244;
   --white: #fff;
   --zambezi: #5f5f5f;
+  --red: #f0000f;
+  --cinnabar: #eb3737;
+  --green: #065a06;
+  --light-green: #7dce7d;
 
   // Generals
   --border-radius: 6px;
@@ -43,6 +47,12 @@
 
   // Card
   --card-bg-color: #242526;
+
+  // Error
+  --error-message: var(--red);
+
+  // Message
+  --message: var(--light-green);
 }
 
 @mixin light-theme-variables {
@@ -65,4 +75,10 @@
 
   // Card
   --card-bg-color: var(--white);
+
+  // Error
+  --error-message: var(--cinnabar);
+
+  // Message
+  --message: var(--green);
 }

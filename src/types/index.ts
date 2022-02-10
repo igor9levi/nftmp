@@ -4,9 +4,14 @@ export type TokenType = 'ERC721' | 'ERC1155';
 
 export interface IToken {
   /**
-   * Array of supported token types e.g. ERC721, ERC1155
+   * Array of supported token types
    */
   types: string[];
+  /**
+  /**
+   * supported token type e.g. ERC721, ERC1155
+   */
+  type: string;
   /**
    * NFT token image
    */
@@ -86,6 +91,6 @@ export type CovalentTokenBalanceData = {
   quote_24h: number | null;
   quote_rate: number | null;
   quote_rate_24h: number | null;
-  supports_erc: string[];
+  supports_erc: string[] | null;
   type: string;
 };
