@@ -18,7 +18,7 @@ import erc721abi from '../../contracts/erc721-abi.json';
 import erc1155abi from '../../contracts/erc1155-abi.json';
 
 // Utils
-import { getErrorMessage, isERC1155, isERC721 } from '../../utils';
+import { getErrorMessage, isERC721, isNFT } from '../../utils';
 
 Modal.setAppElement('#modal');
 
@@ -52,7 +52,7 @@ export const TransferModal = (): JSX.Element => {
       return false;
     }
 
-    if (!token.type && !isERC721(token.type) && !isERC1155(token.type)) {
+    if (!token.type && !isNFT(token.type)) {
       setError('Unrecognized token type');
       return false;
     }

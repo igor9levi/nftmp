@@ -11,8 +11,13 @@ export const getErrorMessage = (error: unknown): string => {
 };
 
 export const isERC721 = (type: string | undefined): boolean => type === ERC721;
+
 export const isERC1155 = (type: string | undefined): boolean =>
   type === ERC1155;
+
+export const isNFT = (tokenType: string): boolean => {
+  return isERC721(tokenType) || isERC1155(tokenType);
+};
 
 export const urlBuilder = ({
   chainId = ChainIds.Mainnet,
@@ -44,7 +49,7 @@ export const extractType = (types: string[] | null): string => {
 
   types.forEach((type) => {
     const currentType = type.toLowerCase();
-    if (currentType === ERC721 || currentType === ERC1155) {
+    if (isNFT(currentType)) {
       tokenType = currentType;
     }
   });
@@ -52,14 +57,16 @@ export const extractType = (types: string[] | null): string => {
   return tokenType;
 };
 
-export const isNFT = (tokenTypes: string[]): boolean => {
+export const containsNFT = (tokenTypes: string[]): boolean => {
   const tokenType = extractType(tokenTypes);
 
-  return tokenType === ERC721 || tokenType === ERC1155;
+  return isNFT(tokenType);
 };
 
 export const filterNFTsOnly = (nft: CovalentTokenBalanceData): boolean =>
-  Boolean(nft.supports_erc && isNFT(nft.supports_erc) && nft.nft_data?.length);
+  Boolean(
+    nft.supports_erc && containsNFT(nft.supports_erc) && nft.nft_data?.length,
+  );
 
 export const parseNFTdata = (nftToken: CovalentTokenBalanceData): IToken[] => {
   if (!nftToken.nft_data) return [];
