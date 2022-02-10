@@ -16,6 +16,7 @@ export const UnsupportedNetwork = (): JSX.Element => {
 
   const handleChangeNetwork = async (): Promise<void> => {
     try {
+      setError('');
       await window.ethereum?.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${ChainIds.Mainnet.toString(16)}` }],

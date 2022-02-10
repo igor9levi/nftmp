@@ -20,7 +20,9 @@ export const Header = ({ metamaskLoading }: HeaderProps): JSX.Element => {
   const { active, activate, deactivate } = useWeb3React();
   const [error, setError] = useState('');
 
-  const connect = useCallback(async (): Promise<void> => {
+  const connect = async (): Promise<void> => {
+    setError('');
+
     try {
       if (!window.ethereum) {
         throw new Error('Please install Metamask.');
@@ -32,9 +34,11 @@ export const Header = ({ metamaskLoading }: HeaderProps): JSX.Element => {
       console.error(err);
       setError(getErrorMessage(err));
     }
-  }, [activate]);
+  };
 
-  const disconnect = useCallback(async (): Promise<void> => {
+  const disconnect = async (): Promise<void> => {
+    setError('');
+
     try {
       await deactivate();
     } catch (err) {
@@ -42,7 +46,7 @@ export const Header = ({ metamaskLoading }: HeaderProps): JSX.Element => {
       console.error(err);
       setError(getErrorMessage(err));
     }
-  }, [deactivate]);
+  };
 
   return (
     <header>

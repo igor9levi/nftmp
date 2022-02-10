@@ -24,12 +24,15 @@ Modal.setAppElement('#modal');
 
 const customStyles = {
   content: {
+    background: 'none',
+    backgroundColor: 'var(--card-bg-color)',
     top: '50%',
     left: '50%',
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
+    padding: 0,
   },
 };
 
@@ -136,6 +139,7 @@ export const TransferModal = (): JSX.Element => {
       isOpen={isModalOpen}
       onRequestClose={close}
       style={customStyles}
+      className={styles.modal}
       contentLabel="NFT Transfer Modal"
     >
       <div className={styles.container}>
@@ -150,7 +154,7 @@ export const TransferModal = (): JSX.Element => {
           />
           {error && <Text className={styles.error}>{error}</Text>}
           {message && <Text className={styles.message}>{message}</Text>}
-          <Button className={styles.submit} onClick={initiateTransfer}>
+          <Button className={styles.submitButton} onClick={initiateTransfer}>
             Transfer
           </Button>
         </form>
