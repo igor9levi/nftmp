@@ -16,6 +16,8 @@ import { useAddress } from '../../hooks/useAddress';
 // ABI
 import erc721abi from '../../contracts/erc721-abi.json';
 import erc1155abi from '../../contracts/erc1155-abi.json';
+
+// Utils
 import { ERC1155, ERC721 } from '../../const';
 import { getErrorMessage } from '../../utils';
 
