@@ -45,6 +45,7 @@ const initialState: IToken[] = [];
 export const Home = (): JSX.Element => {
   const [state, setState] = useState<IToken[]>(initialState);
   const [address, setAddress] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [isAddressManuallyEntered, setAddressManuallyEntered] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { active, account } = useWeb3React();
@@ -52,6 +53,7 @@ export const Home = (): JSX.Element => {
 
   const getData = async (accountAddress: string): Promise<void> => {
     try {
+      setIsLoading(true);
       const data: JSONResponse = await axios.get(
         // Uses Mainnet. To use other chains add chainId from useWeb3React
         urlBuilder({ account: accountAddress }),
@@ -66,6 +68,8 @@ export const Home = (): JSX.Element => {
       // eslint-disable-next-line no-console
       console.error(err);
       setError('Data could not be fetched');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -117,6 +121,10 @@ export const Home = (): JSX.Element => {
         Please connect with your Metamask to continue
       </div>
     );
+  }
+
+  if (isLoading) {
+    return <Text>Your request is being processed...</Text>;
   }
 
   if (!state.length) {
