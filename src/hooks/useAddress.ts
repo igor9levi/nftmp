@@ -8,7 +8,7 @@ interface AddressStore {
 /**
  * Hook for handling modal within state.
  */
-export const useAddress = create<AddressStore>((set, get) => ({
+export const useAddress = create<AddressStore>((set) => ({
   currentAddress: '',
   setCurrentAddress: (address: string): void =>
     set(() => {

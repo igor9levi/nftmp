@@ -17,6 +17,7 @@ import { useAddress } from '../../hooks/useAddress';
 import erc721abi from '../../contracts/erc721-abi.json';
 import erc1155abi from '../../contracts/erc1155-abi.json';
 import { ERC1155, ERC721 } from '../../const';
+import { getErrorMessage } from '../../utils';
 
 Modal.setAppElement('#modal');
 
@@ -35,6 +36,7 @@ export const TransferModal = (): JSX.Element => {
   const { isModalOpen, token, close } = useModal();
   const [transferAddress, setTransferAddress] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [message, setMessage] = useState('');
   const { library, account } = useWeb3React();
   const { currentAddress } = useAddress();
 
@@ -84,9 +86,7 @@ export const TransferModal = (): JSX.Element => {
       return null;
     }
 
-    console.log('creating contract: ', token?.contractAddress, ABI);
-    // return new Contract(token.contractAddress, ABI, signerOrProvider);
-    return new Contract(token.contractAddress, erc1155abi, signerOrProvider);
+    return new Contract(token.contractAddress, ABI, signerOrProvider);
   };
 
   const initiateTransfer = async (): Promise<null> => {
@@ -100,57 +100,31 @@ export const TransferModal = (): JSX.Element => {
       return null;
     }
 
-    console.log(ContractInstance);
-
-    const transferMethod =
-      // token?.type === ERC721 ? 'transferFrom' : 'safeBatchTransferFrom';
-      token?.type === ERC721 ? 'transferFrom' : 'safeTransferFrom';
+    const transferMethod = isERC721() ? 'transferFrom' : 'safeTransferFrom';
 
     let transaction;
-
-    console.log('METHOSL : ', ContractInstance[transferMethod]);
-    console.log('safeTransferFrom : ', ContractInstance.safeTransferFrom);
-    console.log('1155 transferFrom : ', ContractInstance.transferFrom);
-    console.log('transferFrom : ', ContractInstance.transferFrom);
-    console.log('CONtract Address : ', ContractInstance.address);
+    const from = currentAddress || account;
+    const to = transferAddress;
+    const tokenId = token?.tokenId;
 
     try {
       // Get tokenURI metadata from contract only on erc721
-      // const metadata = await ContractInstance.tokenURI(token?.tokenId);
-      // const metadata = await ContractInstance.uri(token?.tokenId);
+      const metadata =
+        isERC721() && (await ContractInstance.tokenURI(token?.tokenId));
       // eslint-disable-next-line no-console
-      // console.log('tokerURI metadata: ', metadata);
+      console.log('tokerURI metadata: ', metadata);
 
-      // TODO: Use account from input
+      transaction = await ContractInstance[transferMethod](from, to, tokenId);
 
-      // TODO: Transfer if nft721
-      // data = await ContractInstance.Transfer(
+      const receipt = await transaction.wait(1);
 
-      // transaction = await ContractInstance[transferMethod](
-      //   // currentAddress || account,
-      //   '0xE0fF737685fdE7Fd0933Fc280D53978b3d0700D5',
-      //   transferAddress,
-      //   token?.tokenId,
-      // );
-
-      // await transaction.wait(1);
-      console.log(account, transferAddress, token?.tokenId);
-
-      // TODO: call transfer if nft1155
+      if (receipt) {
+        setMessage('NFT was successfully transfered.');
+      }
     } catch (err) {
-      console.error(err);
-      // setError(err.message);
-      return null;
+      setError(getErrorMessage(err));
     }
 
-    console.log('CONTRACRT: ', transaction);
-    console.log('TOKEN URI: ', ContractInstance.tokenURI);
-
-    // TODO: implement
-    // create contract instance
-    // get token type and rest metadata
-    // call to transaction
-    // swich accounts
     return null;
   };
 
@@ -172,6 +146,7 @@ export const TransferModal = (): JSX.Element => {
             onChange={(e) => setTransferAddress(e.target.value)}
           />
           {error && <Text className={styles.error}>{error}</Text>}
+          {message && <Text className={styles.message}>{message}</Text>}
           <Button className={styles.submit} onClick={initiateTransfer}>
             Transfer
           </Button>

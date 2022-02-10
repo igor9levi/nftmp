@@ -5,6 +5,11 @@ export const noop = (): void => {
   // do nothing
 };
 
+export const getErrorMessage = (error: unknown): string => {
+  if (error instanceof Error) return error.message;
+  return String(error);
+};
+
 export const urlBuilder = ({
   chainId = ChainIds.Mainnet,
   account,
