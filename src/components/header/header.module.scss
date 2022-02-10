@@ -20,3 +20,8 @@
   display: inline-block;
   vertical-align: top;
 }
+
+.error {
+  color: var(--error-message);
+  margin: 10px 0;
+}

@@ -9,6 +9,7 @@ import Home from './pages';
 
 // Styles
 import styles from './App.module.scss';
+import TransferModal from './components/transferModal';
 
 // Library itself uses type any
 // https://github.com/Uniswap/interface/blob/main/src/utils/getLibrary.ts#L13
@@ -24,6 +25,7 @@ const App = (): JSX.Element => {
     <Web3ReactProvider getLibrary={getLibrary}>
       <MainLayout className={styles.container}>
         <Home />
+        <TransferModal />
       </MainLayout>
     </Web3ReactProvider>
   );

@@ -1,5 +1,9 @@
 @import '../../../styles/mixins';
 
+.container {
+  padding-bottom: 10px;
+}
+
 .cardInfo {
   font-size: 1rem;
   font-weight: 400;

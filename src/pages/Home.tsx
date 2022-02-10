@@ -10,26 +10,45 @@ import NFTCard from '../components/nftCard';
 import { CovalentTokenBalanceData, IToken } from '../types';
 
 // Utils
-import { urlBuilder, filterNFTsOnly, parseNFTdata } from '../utils';
+import {
+  urlBuilder,
+  filterNFTsOnly,
+  parseNFTdata,
+  getErrorMessage,
+} from '../utils';
 
 // Styles
 import styles from './home.module.scss';
 import Button from '../common/button';
+
+// Hooks
+import { useAddress } from '../hooks/useAddress';
 
 type JSONResponse = {
   data: {
     data: {
       items: CovalentTokenBalanceData[];
     };
+    error: boolean;
+    error_code: null | unknown;
+    error_message: null | unknown;
   };
-  // errors?: Array<{ message: string }>;
+  config: unknown;
+  headers: unknown;
+  request: unknown;
+  status: number;
+  statusText: string;
 };
 
+const initialState: IToken[] = [];
+
 export const Home = (): JSX.Element => {
-  const [state, setState] = useState<IToken[]>([]);
+  const [state, setState] = useState<IToken[]>(initialState);
   const [address, setAddress] = useState('');
   const [isAddressManuallyEntered, setAddressManuallyEntered] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { active, account } = useWeb3React();
+  const { setCurrentAddress } = useAddress();
 
   const getData = async (accountAddress: string): Promise<void> => {
     try {
@@ -46,6 +65,7 @@ export const Home = (): JSX.Element => {
     } catch (err) {
       // eslint-disable-next-line no-console
       console.error(err);
+      setError('Data could not be fetched');
     }
   };
 
@@ -56,13 +76,39 @@ export const Home = (): JSX.Element => {
   }, [account]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setError('');
     setAddressManuallyEntered(false);
     setAddress(e.target.value);
   };
 
   const searchHandler = (): void => {
+    setError('');
     setAddressManuallyEntered(true);
+    setCurrentAddress(address);
     getData(address);
+  };
+
+  const handleSwitchAccount = async (): Promise<void> => {
+    setError('');
+    setAddress('');
+    try {
+      await window.ethereum.request({
+        method: 'wallet_requestPermissions',
+        params: [
+          {
+            eth_accounts: {},
+          },
+        ],
+      });
+      // eslint-disable-next-line
+    } catch (err: any) {
+      if (err.code === '4001') {
+        // EIP-1193 userRejectedRequest error
+        setError(getErrorMessage('Please connect to MetaMask.'));
+      } else {
+        setError(getErrorMessage(err.message));
+      }
+    }
   };
 
   if (!active) {
@@ -78,6 +124,7 @@ export const Home = (): JSX.Element => {
       <div>
         <div className={styles.heading}>
           <Text>Connected with: {account}</Text>
+          <Button onClick={handleSwitchAccount}>Switch account</Button>
         </div>
         <p>No NFTs for this wallet address. Add another address manually.</p>
         <div className={styles.container}>
@@ -91,6 +138,7 @@ export const Home = (): JSX.Element => {
         {isAddressManuallyEntered && (
           <div>No NFTs for this address {address}</div>
         )}
+        {error && <Text className={styles.error}>{error}</Text>}
       </div>
     );
   }
@@ -99,6 +147,7 @@ export const Home = (): JSX.Element => {
     <div className={styles.container}>
       <div className={styles.heading}>
         <Text>Connected with: {account}</Text>
+        <Button onClick={handleSwitchAccount}>Switch account</Button>
       </div>
       <div className={styles.content}>
         {state.map((card: IToken) => (
