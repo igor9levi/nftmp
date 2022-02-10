@@ -76,17 +76,20 @@ export const Home = (): JSX.Element => {
   }, [account]);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setError('');
     setAddressManuallyEntered(false);
     setAddress(e.target.value);
   };
 
   const searchHandler = (): void => {
+    setError('');
     setAddressManuallyEntered(true);
     setCurrentAddress(address);
     getData(address);
   };
 
   const handleSwitchAccount = async (): Promise<void> => {
+    setError('');
     setAddress('');
     try {
       await window.ethereum.request({
@@ -97,7 +100,8 @@ export const Home = (): JSX.Element => {
           },
         ],
       });
-    } catch (err) {
+      // eslint-disable-next-line
+    } catch (err: any) {
       if (err.code === '4001') {
         // EIP-1193 userRejectedRequest error
         setError(getErrorMessage('Please connect to MetaMask.'));
