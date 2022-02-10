@@ -16,6 +16,9 @@ import { urlBuilder, filterNFTsOnly, parseNFTdata } from '../utils';
 import styles from './home.module.scss';
 import Button from '../common/button';
 
+// Hooks
+import { useAddress } from '../hooks/useAddress';
+
 type JSONResponse = {
   data: {
     data: {
@@ -38,6 +41,7 @@ export const Home = (): JSX.Element => {
   const [isAddressManuallyEntered, setAddressManuallyEntered] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { active, account } = useWeb3React();
+  const { setCurrentAddress } = useAddress();
 
   const getData = async (accountAddress: string): Promise<void> => {
     try {
@@ -71,6 +75,7 @@ export const Home = (): JSX.Element => {
 
   const searchHandler = (): void => {
     setAddressManuallyEntered(true);
+    setCurrentAddress(address);
     getData(address);
   };
 
