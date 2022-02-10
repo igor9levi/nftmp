@@ -52,7 +52,7 @@ export const TransferModal = (): JSX.Element => {
       return false;
     }
 
-    if (!token.type || !isERC721(token?.type) || !isERC1155(token?.type)) {
+    if (!token.type && !isERC721(token.type) && !isERC1155(token.type)) {
       setError('Unrecognized token type');
       return false;
     }
